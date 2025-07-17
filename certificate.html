@@ -1,1 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScreenerPro Certification</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter and Playfair Display -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- QR Code Library -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode.js/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .certificate-container {
+            width: 100%;
+            max-width: 800px;
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            border: 10px solid #00cec9;
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .certificate-header {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5em;
+            color: #00cec9;
+            margin-bottom: 20px;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .certificate-subheader {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        .certificate-body {
+            margin-bottom: 40px;
+        }
+        .certificate-body p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #333;
+        }
+        .candidate-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            color: #34495e;
+            margin: 20px 0;
+            font-weight: 700;
+            border-bottom: 2px dashed #ccc;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .score-rank {
+            font-size: 1.4em;
+            color: #00cec9;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+        .date-id {
+            font-size: 0.9em;
+            color: #777;
+            margin-top: 30px;
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .footer-text {
+            font-size: 0.8em;
+            color: #999;
+            margin-top: 40px;
+        }
+        .badge-icon {
+            font-size: 3em; /* Larger icon */
+            margin-bottom: 15px;
+            color: #ffd700; /* Gold color for badge */
+        }
 
+        /* Print styles */
+        @media print {
+            body {
+                background-color: #fff;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .certificate-container {
+                border: 5px solid #00cec9;
+                box-shadow: none;
+            }
+            .certificate-header, .candidate-name, .score-rank {
+                color: #00cec9 !important;
+            }
+            .print-button, .share-button, .qr-code-section {
+                display: none; /* Hide buttons and QR code when printing */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="certificate-container">
+        <img src="https://placehold.co/150x50/00cec9/ffffff?text=ScreenerPro" alt="ScreenerPro Logo" class="logo">
+        <div class="certificate-header">ScreenerPro Certification of Excellence</div>
+        <div class="certificate-subheader">This is to certify that</div>
+        <div class="candidate-name" id="candidate-name">Loading...</div>
+        <div class="certificate-body">
+            <p>has been screened by ScreenerPro and achieved a ranking of</p>
+            <div class="score-rank" id="candidate-rank"></div>
+            <p>with an impressive Screener Score of <strong id="candidate-score"></strong>.</p>
+            <p>This recognition is awarded based on a comprehensive assessment of resume quality, skill relevance, and overall profile strength against industry benchmarks and specific job requirements.</p>
+        </div>
+        <div class="date-id">
+            Date: <span id="certificate-date"></span><br>
+            Certificate ID: <span id="certificate-id"></span>
+        </div>
+        <div class="qr-code-section mt-8">
+            <p class="text-gray-600 mb-2">Scan to verify:</p>
+            <div id="qrcode" class="mx-auto" style="width:128px; height:128px;"></div>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4 mt-10">
+            <button onclick="window.print()" class="print-button bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-bold transition-colors duration-300 shadow-md">Download Certificate (PDF)</button>
+            <a id="linkedin-share-button" href="#" target="_blank" class="share-button bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-bold transition-colors duration-300 shadow-md flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.444-2.136 2.939v5.667H9.153V9.298h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.248a2.006 2.006 0 01-2.005-2.004 2.006 2.006 0 012.005-2.004 2.006 2.006 0 012.004 2.004 2.006 2.006 0 01-2.004 2.004zM3.554 20.452V9.298h3.55V20.452H3.554z"></path></svg>
+                Share on LinkedIn
+            </a>
+        </div>
+        <div class="footer-text">
+            Verified by ScreenerPro.
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase imports for client-side
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // IMPORTANT: REPLACE THESE WITH YOUR ACTUAL FIREBASE WEB APP CONFIGURATION
+        const firebaseConfig = {
+          apiKey: "YOUR_FIREBASE_API_KEY",         // <--- REPLACE THIS
+          authDomain: "YOUR_AUTH_DOMAIN",           // <--- REPLACE THIS
+          projectId: "YOUR_PROJECT_ID",             // <--- REPLACE THIS
+          storageBucket: "YOUR_STORAGE_BUCKET",     // <--- REPLACE THIS
+          messagingSenderId: "YOUR_MESSAGING_SENDER_ID", // <--- REPLACE THIS
+          appId: "YOUR_APP_ID"                      // <--- REPLACE THIS
+        };
+
+        // This should match the app_id_for_firestore_collection used in screener.py
+        const APP_ID_FOR_FIRESTORE_COLLECTION = "screenerpro-certs-public"; // <--- ENSURE THIS MATCHES screener.py
+
+        // This CERTIFICATE_HOSTING_URL is the URL where THIS certificate.html is publicly hosted (GitHub Pages URL)
+        const CERTIFICATE_HOSTING_URL = "YOUR_CERTIFICATE_HOSTING_URL"; // <--- REPLACE THIS with your GitHub Pages URL
+
+        let db;
+        let auth;
+        let isAuthReady = false;
+
+        // Initialize Firebase and authenticate
+        async function initFirebase() {
+            try {
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+
+                // Sign in anonymously for public read access
+                await signInAnonymously(auth);
+                console.log("Signed in anonymously for certificate verification.");
+                
+                isAuthReady = true;
+                fetchCertificateData(); // Fetch data once auth is ready
+            } catch (error) {
+                console.error("Error initializing Firebase:", error);
+                document.getElementById('candidate-name').innerText = "Error: Could not connect to verification service. Check console for details.";
+            }
+        }
+
+        // Function to get query parameters from URL
+        function getQueryParams() {
+            const params = {};
+            const urlParams = new URLSearchParams(window.location.search);
+            params['id'] = urlParams.get('id');
+            return params;
+        }
+
+        async function fetchCertificateData() {
+            if (!isAuthReady || !db) {
+                console.log("Firebase not fully initialized for data fetching.");
+                return;
+            }
+
+            const queryParams = getQueryParams();
+            const certificateId = queryParams['id'];
+
+            if (!certificateId || certificateId === 'N/A') {
+                document.getElementById('candidate-name').innerText = "Error: Certificate ID missing or invalid.";
+                return;
+            }
+
+            try {
+                // Public data path: /artifacts/{appId}/public/data/certificates/{documentId}
+                const docRef = doc(db, `artifacts/${APP_ID_FOR_FIRESTORE_COLLECTION}/public/data/certificates`, certificateId);
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    document.getElementById('candidate-name').innerText = data.name || "N/A";
+                    document.getElementById('candidate-score').innerText = `${data.score?.toFixed(1)}%` || "N/A";
+                    document.getElementById('certificate-date').innerText = data.date || "N/A";
+                    document.getElementById('certificate-id').innerText = data.certificate_id || "N/A";
+                    document.getElementById('candidate-rank').innerText = data.rank || "N/A";
+
+                    const verificationUrl = `${CERTIFICATE_HOSTING_URL}/certificate.html?id=${certificateId}`;
+
+                    // Generate QR Code
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: verificationUrl,
+                        width: 128,
+                        height: 128,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
+
+                    // LinkedIn Share Button
+                    const linkedinShareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(verificationUrl)}&title=ScreenerPro%20Certified%20%E2%80%93%20Top%20Performer&summary=I%20just%20got%20certified%20by%20ScreenerPro!%20Check%20out%20my%20verification%20here:&source=ScreenerPro`;
+                    document.getElementById('linkedin-share-button').href = linkedinShareUrl;
+
+                } else {
+                    document.getElementById('candidate-name').innerText = "Certificate Not Found.";
+                    console.error("No such document!");
+                }
+            } catch (error) {
+                document.getElementById('candidate-name').innerText = "Error loading certificate.";
+                console.error("Error getting document:", error);
+            }
+        }
+
+        // Initialize Firebase when the window loads
+        window.onload = initFirebase;
+    </script>
+</body>
+</html>
